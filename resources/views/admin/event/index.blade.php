@@ -11,7 +11,7 @@
                         </a>
                     </div>
                     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                        <div class="pb-4 bg-white ">
+                        {{-- <div class="pb-4 bg-white ">
                             <label for="table-search" class="sr-only">Search</label>
                             <div class="relative mt-1">
                                 <div
@@ -26,7 +26,7 @@
                                     class="block pt-2 text-sm text-gray-900 border border-gray-300 rounded-lg ps-10 w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
                                     placeholder="Search for events">
                             </div>
-                        </div>
+                        </div> --}}
                         <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
                                 <tr>
@@ -70,9 +70,9 @@
                                             {{ $event->is_draft ? 'Draft' : 'Active' }}
                                         </td>
                                         <td class="flex items-center px-6 py-4 gap-x-4">
-                                            <a href="#"
+                                            <a href="{{ route('admin.events.edit', $event->slug) }}"
                                                 class="px-3 py-2 text-sm font-medium text-white rounded-md bg-amber-600 hover:underline">Update</a>
-                                            <a href="#"
+                                            <a href="{{ route('admin.events.show', $event->slug) }}"
                                                 class="px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:underline">Detail</a>
                                         </td>
                                     </tr>
@@ -84,7 +84,9 @@
                             </tbody>
                         </table>
                     </div>
-
+                    <div class="mt-4">
+                        {{ $events->onEachSide(1)->links() }}
+                    </div>
                 </div>
             </div>
         </div>

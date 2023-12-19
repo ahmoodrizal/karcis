@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -13,7 +14,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $events = Event::latest()->get();
+        $events = Event::latest()->paginate(8);
 
         return view('admin.event.index', compact('events'));
     }
@@ -62,7 +63,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        //
+        return view('admin.event.detail', compact('event'));
     }
 
     /**
@@ -70,7 +71,7 @@ class EventController extends Controller
      */
     public function edit(Event $event)
     {
-        //
+        return view('admin.event.edit', compact('event'));
     }
 
     /**
@@ -78,7 +79,34 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        //
+        $data = $request->validate([
+            'name' => ['required'],
+            'location' => ['required'],
+            'city' => ['required'],
+            'description' => ['required'],
+            'stage_date' => ['required', 'date'],
+            'banner' => ['nullable', 'mimes:jpg,png,jpeg', 'image'],
+            'duration' => ['required'],
+            'audience' => ['nullable'],
+            'attention' => ['nullable'],
+        ]);
+
+        $data['slug'] = Str::slug($request['name']);
+
+        if ($request->hasFile('banner')) {
+            // upload image
+            $image = $request->file('banner');
+            $image->storeAs('public/banners', $image->hashName());
+
+            // delete old image
+            Storage::delete('public/banners/' . $event->banner);
+
+            $data['banner'] = $image->hashName();
+        }
+
+        $event->update($data);
+
+        return redirect(route('admin.events.index'));
     }
 
     /**
@@ -87,5 +115,14 @@ class EventController extends Controller
     public function destroy(Event $event)
     {
         //
+    }
+
+    public function toogleStatus(Event $event)
+    {
+        $event->update([
+            'is_draft' => !$event->is_draft,
+        ]);
+
+        return redirect(route('admin.events.index'));
     }
 }

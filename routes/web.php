@@ -39,7 +39,11 @@ Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')
     Route::prefix('events')->name('events.')->group(function () {
         Route::get('/', [EventController::class, 'index'])->name('index');
         Route::get('/create', [EventController::class, 'create'])->name('create');
+        Route::get('/{event:slug}', [EventController::class, 'show'])->name('show');
+        Route::get('/{event:slug}/edit', [EventController::class, 'edit'])->name('edit');
+        Route::put('/{event:slug}', [EventController::class, 'update'])->name('update');
         Route::post('/', [EventController::class, 'store'])->name('store');
+        Route::post('/{event:slug}/toggle', [EventController::class, 'toogleStatus'])->name('toogleStatus');
     });
 });
 
