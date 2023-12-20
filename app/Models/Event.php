@@ -12,4 +12,9 @@ class Event extends Model
     protected $fillable = [
         'name', 'slug', 'city', 'location', 'description', 'stage_date', 'banner', 'duration', 'audience', 'attention', 'is_draft'
     ];
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
+    }
 }

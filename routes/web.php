@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +45,15 @@ Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')
         Route::put('/{event:slug}', [EventController::class, 'update'])->name('update');
         Route::post('/', [EventController::class, 'store'])->name('store');
         Route::post('/{event:slug}/toggle', [EventController::class, 'toogleStatus'])->name('toogleStatus');
+    });
+
+    // Ticket Area
+    Route::prefix('tickets')->name('tickets.')->group(function () {
+        Route::get('/', [TicketController::class, 'index'])->name('index');
+        Route::get('/{event:slug}/create', [TicketController::class, 'create'])->name('create');
+        Route::get('/{ticket:code}/edit', [TicketController::class, 'edit'])->name('edit');
+        Route::put('/{ticket:code}', [TicketController::class, 'update'])->name('update');
+        Route::post('/{event:slug}', [TicketController::class, 'store'])->name('store');
     });
 });
 

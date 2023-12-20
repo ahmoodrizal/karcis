@@ -63,6 +63,7 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
+        // $event::with('tickets');
         return view('admin.event.detail', compact('event'));
     }
 

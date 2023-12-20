@@ -71,7 +71,7 @@
                                         </td>
                                         <td class="flex items-center px-6 py-4 gap-x-4">
                                             <a href="{{ route('admin.events.edit', $event->slug) }}"
-                                                class="px-3 py-2 text-sm font-medium text-white rounded-md bg-amber-600 hover:underline">Update</a>
+                                                class="px-3 py-2 text-sm font-medium text-white bg-orange-600 rounded-md hover:underline">Update</a>
                                             <a href="{{ route('admin.events.show', $event->slug) }}"
                                                 class="px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:underline">Detail</a>
                                         </td>
