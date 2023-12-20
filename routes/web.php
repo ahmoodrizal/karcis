@@ -3,6 +3,7 @@
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,6 +36,11 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // User Area
+    Route::prefix('users')->name('users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+    });
 
     // Event Area
     Route::prefix('events')->name('events.')->group(function () {
