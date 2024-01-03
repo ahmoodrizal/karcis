@@ -4,6 +4,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,11 +19,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Route Public
+
+// Home
 Route::get('/', [HomeController::class, 'home'])->name('welcome');
 
-Route::get('/home', function () {
-    return view('layouts.x-app');
-});
+// Event
+Route::get('/events/{event:slug}', [HomeController::class, 'eventDetail'])->name('event.detail');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,6 +36,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // My Transactions
+    Route::get('/my-transactions', [HomeController::class, 'myTransaction'])->name('user.transactions');
+    Route::get('/checkout/{ticket:code}', [HomeController::class, 'checkout'])->name('user.checkout');
+    Route::get('/transaction/{transaction:unique_code}/payment', [TransactionController::class, 'create'])->name('transaction.create');
+    Route::get('/transaction/{transaction:unique_code}/success', [TransactionController::class, 'success'])->name('transaction.success');
+
+    Route::post('/checkout/{ticket:code}', [TransactionController::class, 'checkout'])->name('transaction.checkout');
+
+
+    // Ticket
+    Route::get('/events/{event:slug}/tickets', [HomeController::class, 'tickets'])->name('event.tickets');
 });
 
 Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')->group(function () {

@@ -11,7 +11,7 @@
                 <a href="#" class="hover:text-purple">Movie</a>
                 <a href="#" class="hover:text-purple">International</a>
                 @auth
-                    <a href="#" class="hover:text-purple">My Tickets</a>
+                    <a href="{{ route('user.transactions') }}" class="hover:text-purple">My Tickets</a>
                 @endauth
             </div>
             <div class="flex gap-x-9">
