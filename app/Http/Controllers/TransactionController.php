@@ -7,13 +7,25 @@ use App\Models\Transaction;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use Midtrans\Config;
+use Midtrans\Notification;
+use Midtrans\Snap;
+use Midtrans\Transaction as MidtransTransaction;
 
 class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function __construct()
+    {
+        Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        Config::$isProduction = env('MIDTRANS_IS_PRODUCTION');
+        Config::$isSanitized = env('MIDTRANS_IS_SANITIZED');
+        Config::$is3ds = env('MIDTRANS_IS_3DS');
+    }
+
     public function index()
     {
         //
@@ -83,6 +95,118 @@ class TransactionController extends Controller
         $transaction = Transaction::create($data);
 
         return redirect(route('transaction.create', $transaction));
+    }
+
+    public function payment(Transaction $transaction)
+    {
+        $this->getSnapRedirect($transaction);
+
+        return redirect(route('user.transactions'));
+    }
+
+    public function getSnapRedirect(Transaction $transaction)
+    {
+        $orderId = $transaction->id . '-' . $transaction->unique_code;
+        $event_name = Str::title($transaction->ticket->event->name);
+        $ticket_name = Str::title($transaction->ticket->name);
+
+        $transaction_details = [
+            'order_id' => $orderId,
+            'gross_amount' => $transaction->total_price
+        ];
+
+        $item_details[] = [
+            'id' => $orderId,
+            'price' => $transaction->total_price,
+            'quantity' => 1,
+            'name' => "1 x {$ticket_name} Ticket for {$event_name}",
+        ];
+
+        $userData = [
+            'first_name' => $transaction->user->name,
+            'last_name' => '',
+            'address' => 'Indonesia',
+            'city' => '',
+            'postal_code' => '',
+            'phone' => $transaction->user->phone_number,
+            'country_code' => 'IDN'
+        ];
+
+        $customer_detail = [
+            'first_name' => $userData['first_name'],
+            'last_name' => '',
+            'phone' => $transaction->user->phone_number,
+            'email' => $transaction->user->email,
+            'billing_address' => $userData,
+            'shipping_address' => $userData,
+        ];
+
+        $page_expire = [
+            'duration' => 5,
+            'unit' => 'minutes'
+        ];
+
+        $midtrans_params = [
+            'transaction_details' => $transaction_details,
+            'item_details' => $item_details,
+            'customer_details' => $customer_detail,
+            'page_expiry' => $page_expire,
+        ];
+
+        try {
+            // Get Snap Payment URL
+            $payment_url = Snap::createTransaction($midtrans_params)->redirect_url;
+            $transaction->payment_url = $payment_url;
+            $transaction->save();
+
+            return $payment_url;
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    public function midtransCallback(Request $request)
+    {
+        $notif = $request->method() == 'POST' ? new Notification() : MidtransTransaction::status($request->order_id);
+
+        $transaction_status = $notif->transaction_status;
+        $fraud = $notif->fraud_status;
+
+        $transaction_id = explode('-', $notif->order_id)[0];
+        $transaction = Transaction::find($transaction_id);
+
+        if ($transaction_status == 'capture') {
+            if ($fraud == 'challenge') {
+                // TODO Set payment status in merchant's database to 'challenge'
+                $transaction->status = 'waiting';
+            } else if ($fraud == 'accept') {
+                // TODO Set payment status in merchant's database to 'success'
+                $transaction->status = 'success';
+            }
+        } else if ($transaction_status == 'cancel') {
+            if ($fraud == 'challenge') {
+                // TODO Set payment status in merchant's database to 'failure'
+                $transaction->status = 'canceled';
+            } else if ($fraud == 'accept') {
+                // TODO Set payment status in merchant's database to 'failure'
+                $transaction->status = 'canceled';
+            }
+        } else if ($transaction_status == 'deny') {
+            // TODO Set payment status in merchant's database to 'failure'
+            $transaction->status = 'canceled';
+        } else if ($transaction_status == 'settlement') {
+            // TODO set payment status in merchant's database to 'Settlement'
+            $transaction->status = 'success';
+        } else if ($transaction_status == 'pending') {
+            // TODO set payment status in merchant's database to 'Pending'
+            $transaction->status = 'waiting';
+        } else if ($transaction_status == 'expire') {
+            // TODO set payment status in merchant's database to 'expire'
+            $transaction->status = 'canceled';
+        }
+
+        $transaction->save();
+        return view('user.transaction.success');
     }
 
     public function success()

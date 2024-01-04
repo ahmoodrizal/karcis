@@ -27,10 +27,14 @@ Route::get('/', [HomeController::class, 'home'])->name('welcome');
 // Event
 Route::get('/events/{event:slug}', [HomeController::class, 'eventDetail'])->name('event.detail');
 
+// Midtrans Route
+Route::get('/payment/success', [TransactionController::class, 'midtransCallback']);
+Route::post('/payment/success', [TransactionController::class, 'midtransCallback']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -41,10 +45,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/my-transactions', [HomeController::class, 'myTransaction'])->name('user.transactions');
     Route::get('/checkout/{ticket:code}', [HomeController::class, 'checkout'])->name('user.checkout');
     Route::get('/transaction/{transaction:unique_code}/payment', [TransactionController::class, 'create'])->name('transaction.create');
+    Route::put('/transaction/{transaction:unique_code}/payment', [TransactionController::class, 'payment'])->name('transaction.payment');
     Route::get('/transaction/{transaction:unique_code}/success', [TransactionController::class, 'success'])->name('transaction.success');
 
     Route::post('/checkout/{ticket:code}', [TransactionController::class, 'checkout'])->name('transaction.checkout');
-
 
     // Ticket
     Route::get('/events/{event:slug}/tickets', [HomeController::class, 'tickets'])->name('event.tickets');
