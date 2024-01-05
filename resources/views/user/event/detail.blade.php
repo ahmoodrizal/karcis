@@ -44,7 +44,7 @@
                 <div
                     class="flex flex-col items-center col-span-4 px-8 py-5 mt-2 mr-4 bg-white border relative rounded-lg gap-y-4 border-[#828282]">
                     <p class="text-[#4F4F4F] font-sans text-[#16px] text-center">Tickets starting at <br> <span
-                            class="font-sans text-xl font-bold text-dark">Rp175.000</span>
+                            class="font-sans text-xl font-bold text-dark">{{ Number::currency($lowestTicket->price, 'IDR', 'id_ID') }}</span>
                     </p>
                     <a href="{{ route('event.tickets', $event) }}"
                         class="bg-purple text-center py-[10px] text-white w-full rounded-[4px]" type="button">

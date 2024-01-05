@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Ticket extends Model
 {
@@ -12,6 +13,13 @@ class Ticket extends Model
     protected $fillable = [
         'event_id', 'code', 'name', 'slug', 'description', 'price', 'quota'
     ];
+
+    public function getIsPurchasedAttribute()
+    {
+        if (!Auth::check()) return false;
+
+        return Transaction::whereTicketId($this->id)->whereUserId(Auth::id())->exists();
+    }
 
     public function event()
     {

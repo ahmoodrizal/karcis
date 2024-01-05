@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Event;
 use App\Models\Ticket;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -16,12 +18,17 @@ class HomeController extends Controller
 
     public function myTransaction()
     {
-        return view('user.transaction.index');
+        $transactions = Transaction::with('ticket.event')
+            ->whereUserId(auth()->user()->id)->latest()->get();
+
+        return view('user.transaction.index', compact('transactions'));
     }
 
     public function eventDetail(Event $event)
     {
-        return view('user.event.detail', compact('event'));
+        $lowestTicket = Ticket::whereBelongsTo($event)->orderBy('price')->first();
+
+        return view('user.event.detail', compact('event', 'lowestTicket'));
     }
 
     public function tickets(Event $event)
@@ -31,6 +38,10 @@ class HomeController extends Controller
 
     public function checkout(Ticket $ticket)
     {
+        if ($ticket->isPurchased) {
+            return redirect(route('user.transactions'));
+        }
+
         return view('user.transaction.checkout', compact('ticket'));
     }
 }

@@ -36,6 +36,10 @@ class TransactionController extends Controller
      */
     public function create(Transaction $transaction)
     {
+        if ($transaction->user_id != auth()->user()->id) {
+            return redirect(route('user.transactions'));
+        }
+
         return view('user.transaction.payment', compact('transaction'));
     }
 
@@ -109,6 +113,7 @@ class TransactionController extends Controller
         $orderId = $transaction->id . '-' . $transaction->unique_code;
         $event_name = Str::title($transaction->ticket->event->name);
         $ticket_name = Str::title($transaction->ticket->name);
+        $item_name = Str::of('1 x ' . $ticket_name . 'Ticket / ' . $event_name)->limit('48');
 
         $transaction_details = [
             'order_id' => $orderId,
@@ -119,7 +124,7 @@ class TransactionController extends Controller
             'id' => $orderId,
             'price' => $transaction->total_price,
             'quantity' => 1,
-            'name' => "1 x {$ticket_name} Ticket for {$event_name}",
+            'name' => $item_name,
         ];
 
         $userData = [
