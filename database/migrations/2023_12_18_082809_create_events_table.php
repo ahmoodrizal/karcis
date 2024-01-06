@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('slug');
             $table->string('location');
             $table->string('city');
-            $table->string('stage_date');
+            $table->date('stage_date');
+            $table->date('presale_date');
             $table->text('description');
             $table->string('banner');
             $table->boolean('is_draft')->default(true);

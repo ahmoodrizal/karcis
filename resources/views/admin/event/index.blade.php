@@ -37,6 +37,9 @@
                                         Event Name
                                     </th>
                                     <th scope="col" class="px-6 py-3">
+                                        Presale Ticket Date
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
                                         Stage Date
                                     </th>
                                     <th scope="col" class="px-6 py-3">
@@ -60,6 +63,9 @@
                                             class="px-6 py-4 font-medium text-gray-900 uppercase whitespace-nowrap">
                                             {{ $event->name }}
                                         </th>
+                                        <td class="px-6 py-4">
+                                            {{ date('j F Y', strtotime($event->presale_date)) }}
+                                        </td>
                                         <td class="px-6 py-4">
                                             {{ date('j F Y', strtotime($event->stage_date)) }}
                                         </td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use App\Models\Ticket;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +13,8 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $events = Event::latest()->limit(4)->get();
+        $events = Event::where('is_draft', 'false')->latest()->limit(4)->get();
+
         return view('welcome', compact('events'));
     }
 

@@ -35,12 +35,6 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('description')" />
                             </div>
                             <div class="">
-                                <x-input-label for="stage_date" :value="__('Event Date')" />
-                                <x-text-input id="stage_date" name="stage_date" type="date"
-                                    class="block w-full mt-1 text-sm" :value="old('stage_date')" autocomplete="stage_date" />
-                                <x-input-error class="mt-2" :messages="$errors->get('stage_date')" />
-                            </div>
-                            <div class="">
                                 <x-input-label for="duration" :value="__('Duration')" />
                                 <x-text-input id="duration" name="duration" type="text"
                                     class="block w-full mt-1 text-sm" :value="old('duration')" autocomplete="duration" />
@@ -65,6 +59,18 @@
                                     class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                                     id="file_input" name="banner" type="file">
                                 <x-input-error class="mt-2" :messages="$errors->get('banner')" />
+                            </div>
+                            <div class="">
+                                <x-input-label for="stage_date" :value="__('Event Date')" />
+                                <x-text-input id="stage_date" name="stage_date" type="date"
+                                    class="block w-full mt-1 text-sm" :value="old('stage_date')" autocomplete="stage_date" />
+                                <x-input-error class="mt-2" :messages="$errors->get('stage_date')" />
+                            </div>
+                            <div class="">
+                                <x-input-label for="presale_date" :value="__('Presale Ticket Date')" />
+                                <x-text-input id="presale_date" name="presale_date" type="date"
+                                    class="block w-full mt-1 text-sm" :value="old('presale_date')" autocomplete="presale_date" />
+                                <x-input-error class="mt-2" :messages="$errors->get('presale_date')" />
                             </div>
                         </div>
                         <x-primary-button>Create Event</x-primary-button>

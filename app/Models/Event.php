@@ -11,7 +11,7 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'slug', 'city', 'location', 'description', 'stage_date', 'banner', 'duration', 'audience', 'attention', 'is_draft'
+        'name', 'slug', 'city', 'location', 'description', 'stage_date', 'banner', 'duration', 'audience', 'attention', 'is_draft', 'presale_date'
     ];
 
     public function tickets()
