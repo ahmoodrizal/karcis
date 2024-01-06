@@ -28,6 +28,11 @@ class HomeController extends Controller
 
     public function eventDetail(Event $event)
     {
+        if ($event->is_draft) {
+            return redirect(route('welcome'));
+        }
+
+
         $lowestTicket = Ticket::whereBelongsTo($event)->orderBy('price')->first();
 
         return view('user.event.detail', compact('event', 'lowestTicket'));
@@ -35,11 +40,31 @@ class HomeController extends Controller
 
     public function tickets(Event $event)
     {
-        return view('user.ticket.ticket', compact('event'));
+        if ($event->is_draft) {
+            return redirect(route('welcome'));
+        }
+
+        $event = Event::where('id', $event->id)
+            ->with(['tickets' => function ($query) {
+                $query->withCount('transactions');
+            }])
+            ->first();
+
+        return view('user.ticket.ticket', [
+            'event' => $event
+        ]);
     }
 
     public function checkout(Ticket $ticket)
     {
+        if ($ticket->event->is_draft) {
+            return redirect(route('welcome'));
+        }
+
+        if ($ticket->quota == $ticket->transactions->count()) {
+            return redirect(route('event.tickets', $ticket->event));
+        }
+
         if ($ticket->isPurchased) {
             return redirect(route('user.transactions'));
         }

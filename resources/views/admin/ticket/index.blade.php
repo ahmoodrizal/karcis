@@ -21,7 +21,10 @@
                                         Ticket Price
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Quota Left
+                                        Ticket Quota
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Ticket Left
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Action
@@ -47,6 +50,9 @@
                                         </td>
                                         <td class="px-6 py-4">
                                             {{ $ticket->quota }}
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $ticket->transactions_count == $ticket->quota ? 'Sold Out' : $ticket->quota - $ticket->transactions_count }}
                                         </td>
                                         <td class="px-6 py-4">
                                             <a href="{{ route('admin.tickets.edit', $ticket->code) }}"

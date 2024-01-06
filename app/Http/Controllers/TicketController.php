@@ -14,7 +14,9 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::with('event')->latest()->paginate(10);
+        $tickets = Ticket::with('event')
+            ->withCount('transactions')
+            ->latest()->paginate(10);
         return view('admin.ticket.index', compact('tickets'));
     }
 

@@ -85,6 +85,10 @@ class TransactionController extends Controller
 
     public function checkout(Request $request, Ticket $ticket)
     {
+        if ($ticket->event->is_draft) {
+            return redirect(route('welcome'));
+        }
+
         $data = $request->validate([
             'name' => ['required', 'string'],
             'phone_number' => ['required', 'numeric'],

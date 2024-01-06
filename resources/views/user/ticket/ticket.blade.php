@@ -4,13 +4,13 @@
     <section class="mx-auto max-w-7xl border-b border-[#DDDDDE] pt-10 pb-[200px]">
         <div class="w-[1200px] mx-auto border-b border-[#DDDDDE] pl-24">
             <p class="font-displat font-bold text-[30px] text-dark mb-14">Ticket Options</p>
-            <div class="flex items-start justify-between gap-x-11">
+            <div class="flex items-start justify-between mb-6 gap-x-11">
                 <div class="w-full">
                     <img src="{{ Storage::url('banners/' . $event->banner) }}" alt="ticket"
                         class="object-cover w-full border rounded-md border-dark">
                 </div>
                 <div class="flex flex-col items-start w-full gap-y-5">
-                    <p class="font-sans text-2xl font-bold text-dark capitalize">{{ $event->name }}</p>
+                    <p class="font-sans text-2xl font-bold capitalize text-dark">{{ $event->name }}</p>
                     <div class="flex items-center justify-start">
                         <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -39,7 +39,7 @@
 
                         <p class="font-sans text-[18px] ml-2">{{ date('j F Y', strtotime($event->stage_date)) }}</p>
                     </div>
-                    <p class="font-sans text-lg text-justify">
+                    <p class="font-sans text-[16px] text-justify">
                         {{ $event->description }}
                     </p>
                 </div>
@@ -56,11 +56,12 @@
                                 {{ $ticket->description }}
                             </p>
                             <p class="font-sans text-2xl font-semibold text-center text-dark">
-                                {{ Number::currency($ticket->price, 'IDR', 'id_ID') }}</p>
+                                {{ $ticket->quota == $ticket->transactions_count ? 'Sold Out' : Number::currency($ticket->price, 'IDR', 'id_ID') }}
+                            </p>
                         </button>
-                        <div class="mx-auto w-fit">
+                        <div class="mx-auto w-fit {{ $ticket->quota == $ticket->transactions_count ? 'hidden' : '' }}">
                             <a href="{{ route('user.checkout', $ticket) }}" id="checkout_btn"
-                                class="px-3 py-2 mx-auto text-sm group-hover:block hidden text-center text-white rounded-lg w-fit bg-purple font-display">
+                                class="hidden px-3 py-2 mx-auto text-sm text-center text-white rounded-lg group-hover:block w-fit bg-purple font-display">
                                 Continue to Payment
                             </a>
                         </div>

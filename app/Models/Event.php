@@ -18,4 +18,9 @@ class Event extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasManyThrough(Transaction::class, Ticket::class);
+    }
 }
