@@ -3,7 +3,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h1 class="mb-8">Users Area</h1>
+                    <h1 class="mb-6 text-xl font-medium font-display">Users Area</h1>
                     <div class="relative mb-4 overflow-x-auto shadow-md sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500 rtl:text-right">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -35,11 +35,11 @@
                                             #{{ $user->id }}
                                         </td>
                                         <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 uppercase whitespace-nowrap">
+                                            class="px-6 py-4 font-medium text-gray-900 capitalize whitespace-nowrap">
                                             {{ $user->name }}
                                         </th>
                                         <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 uppercase whitespace-nowrap">
+                                            class="px-6 py-4 font-medium text-gray-900 capitalize whitespace-nowrap">
                                             {{ $user->role }}
                                         </th>
                                         <td class="px-6 py-4">
@@ -49,7 +49,8 @@
                                             {{ $user->phone_number ?? 'Not Set' }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            <a class="font-medium text-indigo-800 hover:underline">Detail</a>
+                                            <a href="{{ route('admin.users.show', $user) }}"
+                                                class="font-medium text-indigo-800 hover:underline">Detail</a>
                                         </td>
                                     </tr>
                                 @empty

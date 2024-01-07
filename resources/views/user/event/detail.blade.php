@@ -47,7 +47,8 @@
                             class="font-sans text-xl font-bold text-dark">{{ Number::currency($lowestTicket->price, 'IDR', 'id_ID') }}</span>
                     </p>
                     <a href="{{ route('event.tickets', $event) }}"
-                        class="bg-purple text-center py-[10px] text-white w-full rounded-[4px]" type="button">
+                        class="bg-purple hover:bg-indigo-700 hover:font-medium text-center py-[10px] text-white w-full rounded-[4px]"
+                        type="button">
                         Buy Tickets
                     </a>
                     <div class="absolute w-full h-full -z-10 rounded-lg bg-[#0802A3] -bottom-[10px] -right-[10px]">

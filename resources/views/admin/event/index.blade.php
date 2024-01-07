@@ -4,7 +4,7 @@
             <div class="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex items-center justify-between mb-10">
-                        <h1>Event Area</h1>
+                        <h1 class="text-xl font-medium font-display">Event Area</h1>
                         <a href="{{ route('admin.events.create') }}"
                             class="px-3 py-2 text-xs font-medium tracking-wider text-center text-white uppercase transition duration-300 ease-in-out bg-gray-900 rounded-md hover:bg-gray-800">
                             Create New Event

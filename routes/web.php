@@ -59,6 +59,7 @@ Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')
     // User Area
     Route::prefix('users')->name('users.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/{user}/transactions', [UserController::class, 'show'])->name('show');
     });
 
     // Event Area
@@ -79,6 +80,10 @@ Route::middleware(['auth', 'ensureRole:admin'])->prefix('admin')->name('admin.')
         Route::get('/{ticket:code}/edit', [TicketController::class, 'edit'])->name('edit');
         Route::put('/{ticket:code}', [TicketController::class, 'update'])->name('update');
         Route::post('/{event:slug}', [TicketController::class, 'store'])->name('store');
+    });
+
+    Route::prefix('transactions')->name('transactions.')->group(function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('index');
     });
 });
 

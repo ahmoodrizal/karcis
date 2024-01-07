@@ -14,7 +14,7 @@
                     <a href="{{ route('user.transactions') }}" class="hover:text-purple">My Tickets</a>
                 @endauth
             </div>
-            <div class="flex gap-x-9">
+            <div class="flex gap-x-5">
                 @guest
                     <div class="py-[10px] px-4 rounded-[4px] border-purple border border-solid">
                         <a href="{{ route('login') }}" class="font-sans text-sm font-medium text-purple">Login</a>

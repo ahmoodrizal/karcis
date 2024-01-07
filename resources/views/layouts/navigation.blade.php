@@ -28,7 +28,7 @@
                         <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                             {{ __('Promo') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-nav-link :href="route('admin.transactions.index')" :active="request()->routeIs('admin.transactions.index')">
                             {{ __('Transactions') }}
                         </x-nav-link>
                     @endif
@@ -107,7 +107,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Promo') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('admin.transactions.index')" :active="request()->routeIs('admin.transactions.index')">
                 {{ __('Transactions') }}
             </x-responsive-nav-link>
         </div>
