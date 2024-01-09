@@ -14,11 +14,19 @@ class Ticket extends Model
         'event_id', 'code', 'name', 'slug', 'description', 'price', 'quota'
     ];
 
+    public function getIsSoldOutAttribute()
+    {
+        return $this->quota == $this->transactions_count;
+    }
+
     public function getIsPurchasedAttribute()
     {
         if (!Auth::check()) return false;
 
-        return Transaction::whereTicketId($this->id)->whereUserId(Auth::id())->exists();
+        return Transaction::where([
+            ['ticket_id', '=', $this->id],
+            ['status', '!=', 'canceled']
+        ])->whereUserId(Auth::id())->exists();
     }
 
     public function event()

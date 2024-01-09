@@ -82,9 +82,11 @@
                                 {{ $transaction->status }}
                             </td>
                             <td class="px-6 py-4">
-                                @if ($transaction->status != 'success')
+                                @if ($transaction->status != 'success' && $transaction->status != 'canceled')
                                     <a href="{{ $transaction->payment_url }}" target="_blank"
-                                        class="font-medium text-purple hover:underline">Pay Now</a>
+                                        class="font-medium text-emerald-700 hover:underline">Pay Now</a>
+                                @elseif($transaction->status == 'canceled')
+                                    <p class="font-medium text-red-700">Canceled</p>
                                 @else
                                     <a href="#" class="font-medium text-purple hover:underline">View Ticket</a>
                                 @endif
@@ -93,7 +95,7 @@
                         </tr>
                     @empty
                         <tr class="bg-white border-b">
-                            <td colspan="5" class="px-6 py-4 text-center">
+                            <td colspan="6" class="px-6 py-4 text-center">
                                 You didn't have any transactions
                             </td>
                         </tr>

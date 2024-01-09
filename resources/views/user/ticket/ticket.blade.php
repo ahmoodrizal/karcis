@@ -55,8 +55,9 @@
                             <p class="flex-grow font-sans text-sm text-center text-dark mb-7">
                                 {{ $ticket->description }}
                             </p>
-                            <p class="font-sans text-2xl font-semibold text-center text-dark">
-                                {{ $ticket->quota == $ticket->transactions_count ? 'Sold Out' : Number::currency($ticket->price, 'IDR', 'id_ID') }}
+                            <p
+                                class="font-sans text-2xl font-semibold text-center {{ $ticket->is_sold_out ? 'text-red-700' : 'text-dark' }}">
+                                {{ $ticket->is_sold_out ? 'Sold Out' : Number::currency($ticket->price, 'IDR', 'id_ID') }}
                             </p>
                         </button>
                         <div class="mx-auto w-fit {{ $ticket->quota == $ticket->transactions_count ? 'hidden' : '' }}">

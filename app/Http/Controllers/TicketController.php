@@ -15,8 +15,14 @@ class TicketController extends Controller
     public function index()
     {
         $tickets = Ticket::with('event')
-            ->withCount('transactions')
+            ->withCount([
+                'transactions' => function ($query) {
+                    $query->where('status', '!=', 'canceled');
+                }
+            ])
             ->latest()->paginate(10);
+
+
         return view('admin.ticket.index', compact('tickets'));
     }
 

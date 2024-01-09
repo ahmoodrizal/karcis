@@ -45,7 +45,8 @@
                                         <td class="px-6 py-4">
                                             {{ Number::currency($transaction->total_price, 'IDR', 'id_ID') }}
                                         </td>
-                                        <td class="px-6 py-4 uppercase">
+                                        <td
+                                            class="px-6 py-4 uppercase font-medium {{ $transaction->status != 'canceled' ? 'text-purple' : 'text-red-700' }}">
                                             {{ $transaction->status }}
                                         </td>
                                         <td class="px-6 py-4">

@@ -32,7 +32,6 @@ class HomeController extends Controller
             return redirect(route('welcome'));
         }
 
-
         $lowestTicket = Ticket::whereBelongsTo($event)->orderBy('price')->first();
 
         return view('user.event.detail', compact('event', 'lowestTicket'));
@@ -46,7 +45,9 @@ class HomeController extends Controller
 
         $event = Event::where('id', $event->id)
             ->with(['tickets' => function ($query) {
-                $query->withCount('transactions');
+                $query->withCount(['transactions' => function ($query) {
+                    $query->where('status', '!=', 'canceled');
+                }]);
             }])
             ->first();
 
@@ -61,7 +62,7 @@ class HomeController extends Controller
             return redirect(route('welcome'));
         }
 
-        if ($ticket->quota == $ticket->transactions->count()) {
+        if ($ticket->quota == $ticket->transactions()->where('status', '!=', 'canceled')->count()) {
             return redirect(route('event.tickets', $ticket->event));
         }
 
