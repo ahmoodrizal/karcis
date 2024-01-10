@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'waiting', 'success', 'canceled'])->default('pending');
             $table->unsignedInteger('total_price');
             $table->string('payment_url')->nullable();
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }

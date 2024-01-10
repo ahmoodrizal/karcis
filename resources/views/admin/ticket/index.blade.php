@@ -61,7 +61,7 @@
                                     </tr>
                                 @empty
                                     <tr class="border-b odd:bg-white even:bg-gray-50">
-                                        <th colspan="5" scope="row"
+                                        <th colspan="7" scope="row"
                                             class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap">
                                             This Event didn't have tickets
                                         </th>

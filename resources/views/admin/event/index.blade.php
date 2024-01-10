@@ -83,9 +83,12 @@
                                         </td>
                                     </tr>
                                 @empty
-                                    <td colspan="6" class="px-6 py-4 text-center">
-                                        Events Data Not Found
-                                    </td>
+                                    <tr class="border-b odd:bg-white even:bg-gray-50">
+                                        <th colspan="7" scope="row"
+                                            class="px-6 py-4 font-medium text-center text-gray-900 whitespace-nowrap">
+                                            Events Data Not Found
+                                        </th>
+                                    </tr>
                                 @endforelse
                             </tbody>
                         </table>

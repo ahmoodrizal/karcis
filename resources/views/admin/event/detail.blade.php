@@ -63,7 +63,7 @@
                                         Ticket Price
                                     </th>
                                     <th scope="col" class="px-6 py-3">
-                                        Quota Left
+                                        Quota Ticket
                                     </th>
                                     <th scope="col" class="px-6 py-3">
                                         Action

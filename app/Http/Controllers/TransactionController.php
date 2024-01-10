@@ -102,6 +102,7 @@ class TransactionController extends Controller
         $data['ticket_id'] = $ticket->id;
         $data['unique_code'] = Str::random(8);
         $data['total_price'] = $ticket->price;
+        $data['expired_at'] = now()->addMinutes(10);
 
         $transaction = Transaction::create($data);
 
