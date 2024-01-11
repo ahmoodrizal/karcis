@@ -16,7 +16,7 @@ Karcis - an Online Ticket Website
 -   [x] User Dashboard Management
 -   [x] Event and Ticket Dashboard Management
 -   [x] Transaction Dashboard Management
--   [x] Integration with Midtrans
+-   [x] Integration Payment Gateway with Midtrans
 -   [x] API
 
 ## License

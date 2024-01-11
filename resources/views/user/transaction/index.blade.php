@@ -88,7 +88,8 @@
                                 @elseif($transaction->status == 'canceled')
                                     <p class="font-medium text-red-700">Canceled</p>
                                 @else
-                                    <a href="#" class="font-medium text-purple hover:underline">View Ticket</a>
+                                    <a href="{{ route('transaction.success', $transaction) }}"
+                                        class="font-medium text-purple hover:underline">View Ticket</a>
                                 @endif
 
                             </td>

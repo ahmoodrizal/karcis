@@ -8,7 +8,8 @@
                 <div class="py-4 pl-10 pr-20 bg-[#F0EFFE] rounded-md">
                     <p class="font-sans text-sm font-medium text-purple">
                         E-tickets will be sent to your email address, please make sure your email
-                        address is correct.
+                        address is correct. Please complete the transaction within 10 minutes or it will be canceled
+                        automatically.
                     </p>
                 </div>
                 <form action="{{ route('transaction.checkout', $ticket) }}" method="post">

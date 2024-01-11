@@ -113,7 +113,7 @@ class TransactionController extends Controller
     {
         $this->getSnapRedirect($transaction);
 
-        return redirect(route('user.transactions'));
+        return redirect(route('transaction.success', $transaction));
     }
 
     public function getSnapRedirect(Transaction $transaction)
@@ -222,8 +222,8 @@ class TransactionController extends Controller
         return view('user.transaction.success');
     }
 
-    public function success()
+    public function success(Transaction $transaction)
     {
-        return view('user.transaction.success');
+        return view('user.transaction.success', compact('transaction'));
     }
 }
