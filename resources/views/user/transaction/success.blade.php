@@ -51,7 +51,6 @@
                     Click here to complete payment
                 </a>
             @endif
-
         </div>
     </section>
 @endsection
