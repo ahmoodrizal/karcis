@@ -46,7 +46,7 @@
             </div>
         </div>
         <div class="w-[1200px] mx-auto pt-20">
-            <div class="grid grid-cols-4 mb-20 gap-x-5 gap-y-8">
+            <div class="grid items-start grid-cols-4 mb-20 gap-x-5 gap-y-8">
                 @foreach ($event->tickets as $ticket)
                     <div class="flex flex-col gap-y-4 group">
                         <button type="button" id="ticket_id"
