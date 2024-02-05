@@ -13,7 +13,10 @@ class HomeController extends Controller
 {
     public function home()
     {
-        $events = Event::where('is_draft', 'false')->latest()->limit(4)->get();
+        $events = Event::with(['tickets' => function ($query) {
+            $query->orderBy('price')->take(2);
+        }])
+            ->where('is_draft', 'false')->latest()->limit(4)->get();
 
         return view('welcome', compact('events'));
     }

@@ -14,6 +14,9 @@ class Ticket extends Model
         'event_id', 'code', 'name', 'slug', 'description', 'price', 'quota'
     ];
 
+    // Atribut yang akan di-append ke output JSON
+    // protected $appends = ['is_sold_out'];
+
     public function getIsSoldOutAttribute()
     {
         return $this->quota == $this->transactions_count;

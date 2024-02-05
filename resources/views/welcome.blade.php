@@ -82,7 +82,8 @@
                             <div class="flex flex-col items-start font-sans gap-y-[6px]">
                                 <div class="flex-grow">
                                     <p class="text-sm md:text-[16px] font-bold text-dark uppercase">{{ $event->name }}</p>
-                                    <p class="text-[10px] md:text-sm text-dark">Rp450.000</p>
+                                    <p class="text-[10px] md:text-sm text-dark">
+                                        {{ Number::currency($event->tickets->first()->price, 'IDR', 'id_ID') }}</p>
                                 </div>
                                 <div class="flex">
                                     <div class="w-[10px] h-[10px]">
