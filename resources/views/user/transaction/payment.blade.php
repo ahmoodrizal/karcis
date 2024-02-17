@@ -9,16 +9,6 @@
             <div class="grid grid-cols-11 gap-x-5">
                 <div class="flex flex-col items-start col-span-6 gap-y-10 pr-5 border-r-2 border-[#DDDDDE]">
                     <div class="flex flex-col w-full gap-y-8">
-                        <p class="font-sans text-2xl font-semibold text-dark">Credit Card</p>
-                        <div class="flex items-center border-2 rounded-md gap-x-4 border-[#DDDDDE] py-[10px] pl-5">
-                            <input id="cc" type="radio" value="credit_card" name="payment_id"
-                                class="w-4 h-4 bg-gray-100 border-gray-300 text-purple focus:ring-purple focus:ring-2">
-                            <label for="cc" class="font-sans text-sm font-medium text-dark">
-                                Credit/Debit Card
-                            </label>
-                        </div>
-                    </div>
-                    <div class="flex flex-col w-full gap-y-8">
                         <p class="font-sans text-2xl font-semibold text-dark">Virtual Account</p>
                         <div class="flex flex-col gap-y-4">
                             <div
@@ -69,28 +59,6 @@
                                     </label>
                                 </div>
                                 <img src="{{ asset('images/gopay.png') }}" alt="em_gopay">
-                            </div>
-                            <div
-                                class="flex items-center justify-between border-2 rounded-md gap-x-4 border-[#DDDDDE] py-[10px] px-5">
-                                <div class="flex items-center gap-x-5">
-                                    <input id="em_ovo" type="radio" value="ovo" name="payment_id"
-                                        class="w-4 h-4 bg-gray-100 border-gray-300 text-purple focus:ring-purple focus:ring-2">
-                                    <label for="em_ovo" class="font-sans text-sm font-medium text-dark">
-                                        OVO
-                                    </label>
-                                </div>
-                                <img src="{{ asset('images/ovo.png') }}" alt="em_ovo">
-                            </div>
-                            <div
-                                class="flex items-center justify-between border-2 rounded-md gap-x-4 border-[#DDDDDE] py-[10px] px-5">
-                                <div class="flex items-center gap-x-5">
-                                    <input id="em_linkaja" type="radio" value="link_aja" name="payment_id"
-                                        class="w-4 h-4 bg-gray-100 border-gray-300 text-purple focus:ring-purple focus:ring-2">
-                                    <label for="em_linkaja" class="font-sans text-sm font-medium text-dark">
-                                        Link Aja
-                                    </label>
-                                </div>
-                                <img src="{{ asset('images/linkaja.png') }}" alt="em_linkaja">
                             </div>
                             <div
                                 class="flex items-center justify-between border-2 rounded-md gap-x-4 border-[#DDDDDE] py-[10px] px-5">

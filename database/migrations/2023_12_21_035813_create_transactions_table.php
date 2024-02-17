@@ -19,6 +19,9 @@ return new class extends Migration
             $table->enum('status', ['pending', 'waiting', 'success', 'canceled'])->default('pending');
             $table->unsignedInteger('total_price');
             $table->string('payment_url')->nullable();
+            $table->enum('payment_method', ['bank_transfer', 'e_wallet'])->nullable();
+            $table->string('payment_va_bank')->nullable();
+            $table->string('payment_va_number')->nullable();
             $table->timestamp('expired_at');
             $table->timestamps();
         });

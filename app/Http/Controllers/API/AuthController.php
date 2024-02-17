@@ -26,7 +26,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'User Register Success',
-            'data' => $user,
+            'user' => $user,
         ], 201);
     }
 
@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => 'Unauthorized - Password didn\'t match our record'
+                'message' => 'Invalid Credentials'
             ], 401);
         }
 
@@ -57,7 +57,7 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'User Login Success',
             'token' => $token,
-            'data' => $user
+            'user' => $user
         ], 200);
     }
 

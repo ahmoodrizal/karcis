@@ -12,7 +12,7 @@ class EventController extends Controller
     {
         return response()->json([
             'message' => 'Success Fetch Events Data',
-            'data' => Event::latest()->get()
+            'events' => Event::latest()->get()
         ]);
     }
 
@@ -22,7 +22,7 @@ class EventController extends Controller
 
         return response()->json([
             'message' => 'Success Fetch Event Detail',
-            'data' => $data
+            'event' => $data
         ]);
     }
 }
