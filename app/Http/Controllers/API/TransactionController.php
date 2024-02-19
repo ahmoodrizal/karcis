@@ -48,4 +48,24 @@ class TransactionController extends Controller
             'transaction' => $transaction,
         ], 201);
     }
+
+    // Fetch All User's Transactions
+    public function transactions()
+    {
+        $transactions = auth()->user()->transactions;
+
+        return response()->json([
+            'message' => 'Success fetch User transactions',
+            'transactions' => $transactions,
+        ], 200);
+    }
+
+    // Fetch Transaction Detail by id
+    public function show(Transaction $transaction)
+    {
+        return response()->json([
+            'message' => 'Success fetch transaction detail',
+            'transaction' => $transaction
+        ], 200);
+    }
 }
