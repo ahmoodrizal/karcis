@@ -4,7 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Event;
-use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
@@ -24,5 +23,15 @@ class EventController extends Controller
             'message' => 'Success Fetch Event Detail',
             'event' => $data
         ]);
+    }
+
+    public function tickets(Event $event)
+    {
+        $tickets = $event->tickets;
+
+        return response()->json([
+            'message' => 'Success fetch event tickets',
+            'tickets' => $tickets,
+        ], 200);
     }
 }
