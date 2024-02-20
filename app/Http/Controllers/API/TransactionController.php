@@ -62,7 +62,7 @@ class TransactionController extends Controller
     // Fetch All User's Transactions
     public function transactions()
     {
-        $transactions = auth()->user()->transactions;
+        $transactions = Transaction::whereUserId(auth()->user()->id)->latest()->get();
 
         return response()->json([
             'message' => 'Success fetch User transactions',

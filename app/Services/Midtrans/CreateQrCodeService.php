@@ -38,10 +38,6 @@ class CreateQrCodeService extends Midtrans
                 'email' => $this->transaction->user->email,
                 'phone' => $this->transaction->user->phone_number ??  '087723015713',
             ],
-            'gopay' => [
-                'enable_callback' => true,
-                'callback_url' => 'someapps://callback'
-            ]
         ];
 
         $response = CoreApi::charge($params);
