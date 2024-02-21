@@ -69,4 +69,21 @@ class AuthController extends Controller
             'message' => 'User Logout Success'
         ], 200);
     }
+
+    public function updateFirebaseToken(Request $request)
+    {
+        $data = $request->validate([
+            'firebase_token' => ['required'],
+        ]);
+
+        $user = auth()->user();
+
+        $user->update([
+            'firebase_token' => $data['firebase_token'],
+        ]);
+
+        return response()->json([
+            'message' => 'Update User Firebase Token Success'
+        ], 200);
+    }
 }

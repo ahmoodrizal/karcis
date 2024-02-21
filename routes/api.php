@@ -37,6 +37,7 @@ Route::post('/callback', [MidtransCallbackController::class, 'callback']);
 Route::middleware('auth:sanctum')->group(function () {
     // Auth
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::put('/update-fcm-token', [AuthController::class, 'updateFirebaseToken']);
 
     // Transaction
     Route::post('/transaction', [TransactionController::class, 'order']);

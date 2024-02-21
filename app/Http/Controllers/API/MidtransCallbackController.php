@@ -3,26 +3,30 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\Midtrans\CallbackService;
+use Kreait\Firebase\Messaging\CloudMessage;
+use Kreait\Firebase\Messaging\Notification;
 
 class MidtransCallbackController extends Controller
 {
     public function callback()
     {
         $callback = new CallbackService();
-        $order = $callback->getTransaction();
+        $transaction = $callback->getTransaction();
 
         // if ($callback->isSignatureKeyVerified()) {
         if ($callback->isSuccess()) {
-            $order->update([
+            $this->sendNotifyToUser($transaction->user_id, 'Transaksi Ticket #' . $transaction->unique_code . ' Success');
+            $transaction->update([
                 'status' => 'success',
             ]);
         } else if ($callback->isExpire()) {
-            $order->update([
+            $transaction->update([
                 'status' => 'canceled',
             ]);
         } else if ($callback->isCancelled()) {
-            $order->update([
+            $transaction->update([
                 'status' => 'canceled',
             ]);
         }
@@ -40,5 +44,18 @@ class MidtransCallbackController extends Controller
         //         'message' => 'Callback failed',
         //     ],
         // ]);
+    }
+
+    public function sendNotifyToUser($userId, $message)
+    {
+        $user = User::find($userId);
+        $token = $user->firebase_token;
+
+        $messaging = app('firebase.messaging');
+        $notify = Notification::create('Transaction Success', $message);
+
+        $message = CloudMessage::withTarget('token', $token)->withNotification($notify);
+
+        $messaging->send($message);
     }
 }
