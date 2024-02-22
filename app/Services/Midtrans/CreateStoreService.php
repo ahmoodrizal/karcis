@@ -3,8 +3,9 @@
 namespace App\Services\Midtrans;
 
 use Midtrans\CoreApi;
+use Illuminate\Support\Str;
 
-class CreateQrCodeService extends Midtrans
+class CreateStoreService extends Midtrans
 {
     protected $transaction;
 
@@ -15,7 +16,7 @@ class CreateQrCodeService extends Midtrans
         $this->transaction = $transaction;
     }
 
-    public function getSnapToken()
+    public function getPaymentCode()
     {
 
         $item_details[] = [
@@ -26,7 +27,7 @@ class CreateQrCodeService extends Midtrans
         ];
 
         $params = [
-            'payment_type' => $this->transaction->payment_va_bank,
+            'payment_type' => $this->transaction->payment_method,
             'transaction_details' => [
                 'order_id' => $this->transaction->unique_code,
                 'gross_amount' => $this->transaction->total_price,
@@ -37,6 +38,10 @@ class CreateQrCodeService extends Midtrans
                 'email' => $this->transaction->user->email,
                 'phone' => $this->transaction->user->phone_number ??  '087723015713',
             ],
+            'cstore' => [
+                'store' => $this->transaction->payment_va_bank,
+                'message' =>  Str::upper($this->transaction->unique_code)
+            ]
         ];
 
         $response = CoreApi::charge($params);

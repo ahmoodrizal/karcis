@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Services\Midtrans\CreateQrCodeService;
+use App\Services\Midtrans\CreateStoreService;
 use App\Services\Midtrans\CreateVirtualAccountService;
 use Illuminate\Http\Request;
 
@@ -26,8 +27,8 @@ class TransactionController extends Controller
 
         $data = $request->validate([
             'ticket_id' => ['required', 'exists:tickets,id'],
-            'payment_method' => ['required', 'in:bank_transfer,e_wallet'],
-            'payment_va_bank' => ['required', 'in:bca,bni,bri,mandiri,gopay,qris,shopeepay']
+            'payment_method' => ['required', 'in:bank_transfer,e_wallet,cstore'],
+            'payment_va_bank' => ['required', 'in:bca,bni,bri,mandiri,gopay,qris,shopeepay,indomaret,alfamart']
         ]);
 
         $data['user_id'] = auth()->user()->id;
@@ -44,12 +45,19 @@ class TransactionController extends Controller
 
             $transaction->payment_va_number = $apiResponse->va_numbers[0]->va_number;
             $transaction->save();
-        } else {
+        } elseif ($request['payment_method'] == 'e_wallet') {
             // Midtrans QRIS Integration with Core API
             $midtrans = new CreateQrCodeService($transaction->load('user', 'ticket'));
             $apiResponse = $midtrans->getSnapToken();
 
             $transaction->payment_url = $apiResponse->actions[0]->url;
+            $transaction->save();
+        } else {
+            // Midtrans Store Integration with Core API
+            $midtrans = new CreateStoreService($transaction->load('user', 'ticket'));
+            $apiResponse = $midtrans->getPaymentCode();
+
+            $transaction->payment_va_number = $apiResponse->payment_code;
             $transaction->save();
         }
 

@@ -63,6 +63,10 @@ class AuthController extends Controller
 
     public function logout()
     {
+        $user = auth()->user();
+        $user->firebase_token = null;
+        $user->save();
+
         auth()->user()->tokens()->delete();
 
         return response()->json([
